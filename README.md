@@ -3,9 +3,6 @@
 ## Project Overview
 This project showcases a complete CI/CD pipeline for deploying a React application using Docker, Jenkins, and AWS. It also integrates robust monitoring and alerting systems for effective application management.
 
-## Live Application
-Access the live application here: [React App - Live Deployment](http://65.2.123.191:80).
-
 ## Features
 
 ### 1. **Application Deployment**
