@@ -1,130 +1,88 @@
-React App Docker Deployment with Jenkins, AWS, and Monitoring
-Project Overview
-This project demonstrates a full CI/CD pipeline for deploying a React application using Docker, Jenkins, and AWS. The pipeline includes robust monitoring and alerting mechanisms to ensure effective application management.
+# React App Docker Deployment
 
-Features
-Application Deployment
+## Project Overview  
+This project demonstrates a complete **CI/CD pipeline** for deploying a **React application** using **Docker**, **Jenkins**, and **AWS**. It integrates automated deployment, real-time monitoring, and alerting for effective application management.
 
-A React app running inside a Docker container on port 80 (HTTP).
-Hosted on a dedicated AWS EC2 instance.
-Docker Workflow
+---
 
-The React app is dockerized using a custom Dockerfile.
-Multi-container management is simplified using docker-compose.yml.
-Two Docker Hub repositories are used:
-Development: moonishaa/dev:latest (public repository).
-Production: moonishaa/prod:latest (private repository).
-Version Control
+## Key Features  
+- **Fully Automated CI/CD Pipeline**: Streamlined build, test, and deployment processes with Jenkins.
+- **Scalable Containerization**: Dockerized React app using a custom `Dockerfile` and `docker-compose.yml` for easy deployment and scaling.
+- **Multi-Environment Deployment**: Separate Docker Hub repositories for development (`dev`) and production (`prod`) environments.
+- **Real-Time Monitoring**: **Prometheus** collects performance metrics, and **Grafana** visualizes them with dynamic dashboards.
+- **Automated Alerts**: **AlertManager** sends email notifications for server downtime or performance issues.
+  
+---
 
-Git Workflow:
-dev branch for development.
-master branch for production.
-Includes .gitignore and .dockerignore to streamline version control.
-CI/CD with Jenkins
+### Technologies Used  
+- **Docker** and **Docker Compose** for containerization  
+- **GitHub** for version control  
+- **Jenkins** for CI/CD automation  
+- **AWS EC2** for hosting and deployment  
+- **Prometheus** and **Grafana** for monitoring and alerting
 
-Automated Build and Deployment:
-For development: Code pushed to dev → Docker image pushed to the dev Docker Hub repository.
-For production: dev merged into master → Docker image pushed to the prod Docker Hub repository.
-Build and deployment scripts:
-build.sh: Automates Docker image creation.
-deploy.sh: Handles deployment of the image to the server.
-AWS Infrastructure
+---
 
-Runs Jenkins, Docker, CI/CD processes, and monitoring resources.
-Monitoring and Alerts
+## Prerequisites  
+Ensure the following are installed or configured:  
+1. **Docker** and **Docker Compose** (Install [Docker](https://docs.docker.com/get-docker/))  
+2. **Node.js** and **npm** (Install [Node.js](https://nodejs.org/))  
+3. An **AWS EC2 instance** with a public IP  
+4. A **Docker Hub account** for storing images  
+5. **Jenkins** installed and configured ([Jenkins Setup Guide](https://www.jenkins.io/doc/))  
+6. **Prometheus** and **Grafana** installed and configured for application health checks  
 
-Prometheus collects application and server metrics from the React app instance via Node Exporter.
-Grafana visualizes these metrics in real-time dashboards.
-AlertManager sends email notifications for server downtime or performance issues.
-Repository Structure
-Branches:
-dev: For development workflow.
-master: For production-ready workflow.
-Key Files:
-Dockerfile: Defines the container setup for the React app.
-docker-compose.yml: Configures multi-container setup, if needed.
-Jenkinsfile: Defines the CI/CD pipeline configuration.
-screenshots/: Contains project-related visuals.
-Monitoring System
-Prometheus: Collects metrics from the React app instance using Node Exporter.
-Grafana: Displays collected metrics in real-time through dynamic dashboards.
-AlertManager: Sends email notifications when the application or server experiences downtime or performance issues.
-Usage
-Step 1: Clone the Repository
-Clone the repository to your local machine:
+---
 
-bash
-Copy
-git clone https://github.com/MoonishaaA/Project-1.git
-cd Project-1
-Step 2: Build the Docker Image
-Navigate to the project directory.
+## Setup and Installation
 
-Run the build.sh script to build the Docker image for the React app:
+### 1. Clone the Repository
+Clone this repository to your local machine:  
+   ```bash  
+   git clone https://github.com/MoonishaaA/Project-1.git
+   cd react-app-docker-deployment
+   ```
+2. Install dependencies
+   ```bash
+   npm install
+3. Start the application locally
+   ```bash
+   npm start
+4. Access the application at `http://localhost:80`     
+   
+## Docker Workflow   
+- Two Docker Hub repositories:  
+  - **Development**: `moonishaa/dev:latest`  
+  - **Production**: `moonishaa/prod:latest`  
 
-bash
-Copy
-./build.sh
-This script will:
+---
 
-Build the Docker image for development or production based on the current branch.
-Push the built image to the appropriate Docker Hub repository (either moonishaa/dev for development or moonishaa/prod for production).
-Step 3: Deploy the Application
-Run the deploy.sh script to deploy the Docker container to your AWS EC2 instance:
+## CI/CD with Jenkins
 
-bash
-Copy
-./deploy.sh
-This will:
+### 1. Automated Build and Deployment  
+- **Development**: Code pushed to `dev` → Image pushed to `dev` Docker Hub repository.  
+- **Production**: `dev` merged into `master` → Image pushed to `prod` Docker Hub repository.  
+### 2. Build and Deployment Scripts  
+- **`build.sh`**: Automates Docker image creation.  
+- **`deploy.sh`**: Pushes the Docker image to the Docker Hub repository.
 
-Pull the correct Docker image from Docker Hub.
-Deploy the image to the EC2 instance and start the container on port 80.
-Step 4: Jenkins CI/CD Pipeline
-Jenkins Setup:
-Ensure Jenkins is configured and connected to the GitHub repository.
-The Jenkins pipeline is defined in the Jenkinsfile in this repository.
-When changes are pushed to the dev branch, Jenkins will automatically build the Docker image and push it to the dev Docker Hub repository.
-When changes are merged into master, Jenkins will push the Docker image to the prod Docker Hub repository.
-Step 5: Monitoring and Alerts
-Prometheus Setup:
-Prometheus will collect application and system metrics using Node Exporter.
-Grafana Setup:
-Once Prometheus is collecting data, Grafana can be used to visualize the metrics on dynamic dashboards.
-AlertManager:
-Prometheus will trigger AlertManager if the React app goes down or faces performance issues.
-AlertManager will send an email notification when an alert is triggered.
-Example of a Dockerfile
-Here is a basic example of how to set up your React app in a Dockerfile:
+---
 
-Dockerfile
-Copy
-# Step 1: Build the React app
-FROM node:16 AS build
+## Monitoring and Alerts
 
-WORKDIR /app
-COPY . /app
-RUN npm install
-RUN npm run build
+- **Prometheus**: Collects metrics from the React App instance via **Node Exporter**.  
+- **Grafana**: Displays the metrics on real-time, dynamic dashboards.  
+- **AlertManager**: Sends email notifications when the application or server experiences issues or downtime.  
 
-# Step 2: Serve the app using a lightweight web server
-FROM nginx:alpine
+---
 
-COPY --from=build /app/build /usr/share/nginx/html
+## Repository Structure
 
-# Expose port 80
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-Example of docker-compose.yml
-If you need multiple containers (for example, to manage the React app with a backend), you can use docker-compose.yml:
+- **Branches**:
+  - `dev`: Development workflow.  
+  - `master`: Production-ready workflow.  
 
-yaml
-Copy
-version: '3'
-services:
-  react-app:
-    image: moonishaa/dev:latest
-    ports:
-      - "80:80"
-    restart: always
-Conclusion
-This project demonstrates a robust CI/CD pipeline using Jenkins, Docker, and AWS to deploy a React application with integrated monitoring and alerting systems.
+---
+
+## Conclusion  
+This project demonstrates a robust **CI/CD pipeline** for deploying a **React application** 
