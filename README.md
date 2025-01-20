@@ -40,7 +40,7 @@ Ensure the following are installed or configured:
 Clone this repository to your local machine:  
    ```bash  
    git clone https://github.com/MoonishaaA/Project-1.git
-   cd react-app-docker-deployment
+   cd Project-1
    ```
 2. Install dependencies
    ```bash
