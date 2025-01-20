@@ -40,14 +40,14 @@ Ensure the following are installed or configured:
 Clone this repository to your local machine:  
    ```bash  
    git clone https://github.com/MoonishaaA/Project-1.git
-   cd Project-1
+   cd build
    ```
 2. Install dependencies
    ```bash
-   npm install
+   sudo npm install -g http-server
 3. Start the application locally
    ```bash
-   npm start
+   sudo http-server -p 80
 4. Access the application at `http://localhost:80`     
    
 ## Docker Workflow   
